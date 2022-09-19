@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
-const DB_STRING = process.env.DB_STRING;
+const DB_STRING = process.env.NEXT_PUBLIC_DB_STRING;
 const sequelize = new Sequelize(DB_STRING, {
   logging: false,
 });
