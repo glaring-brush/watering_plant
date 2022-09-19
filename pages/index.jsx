@@ -1,4 +1,5 @@
 import { useCreateWateringEventMutation, useGetWateringEventsListQuery } from '../api/wateringEvents';
+import styles from '../styles/Home.module.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/uk';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -55,30 +56,13 @@ function WeekRow({ value, label, schedule }) {
       style={{
         listStyle: 'none',
         marginBottom: '.4em',
-        opacity: isCreateWateringEventLoading ? '0.4' : '1',
+        opacity: isCreateWateringEventLoading ? '0.8' : '1',
         transition: 'all 0.2s',
       }}
       key={value}
     >
-      <label
-        htmlFor={`checkbox-${value}`}
-        style={{
-          display: 'inline-block',
-          border: '3px solid',
-          borderRadius: '.3em',
-          padding: '0.2em 0.4em',
-        }}
-      >
-        <input
-          type='checkbox'
-          id={`checkbox-${value}`}
-          {...register(IS_WATERED_FIELD)}
-          style={{
-            width: '1.4em',
-            height: '1.4em',
-            marginRight: '1.4em',
-          }}
-        />
+      <label htmlFor={`checkbox-${value}`} className={`${styles.DayLabel} ${isCreateWateringEventLoading ? 'animated' : ''} ${isCreateWateringEventLoading ? styles.DayLabelProgress : ''} `}>
+        <input type='checkbox' id={`checkbox-${value}`} {...register(IS_WATERED_FIELD)} className={styles.DayCheckbox} />
         <input {...register(WATERING_DATE_FIELD)} hidden />
         {liLabel}
       </label>
@@ -118,16 +102,19 @@ export default function Home() {
         <title>Підливання вазонка </title>
       </Head>
 
-      <main style={{ padding: '2em 4em', fontSize: '1.4em' }}>
-        <h1>
-          Підливання вазонка ({weekStart.format('D MMMM')} - {weekEnd.format('D MMMM')})
+      <main className={styles.PageMain}>
+        <h1 className={styles.PageHeader}>
+          Підливання вазонка{' '}
+          <span className={styles.WeekRange}>
+            ({weekStart.format('D MMMM')} - {weekEnd.format('D MMMM')})
+          </span>
         </h1>
         {isLoading ? (
           'Завантажую...'
         ) : isError ? (
           'Помилка'
         ) : (
-          <ul>
+          <ul className={styles.WeekDays}>
             {weekDaysOptions.map(({ value, label }) => (
               <WeekRow key={value} value={value} label={label} schedule={schedule} />
             ))}
@@ -135,7 +122,7 @@ export default function Home() {
         )}
       </main>
 
-      <footer></footer>
+      <footer className={styles.PageFooter}>Версія 1.1</footer>
     </div>
   );
 }

@@ -1,0 +1,54 @@
+.PageMain {
+  padding: 2em 4em;
+}
+
+.PageFooter {
+  padding: 2em 10em;
+  font-size: 0.8em;
+}
+
+.DayLabel {
+  display: flex;
+  border: 3px solid;
+  border-radius: 0.3em;
+  padding: 0.4em 0.4em;
+  padding-right: 0.8em;
+  width: fit-content;
+  font-weight: bold;
+}
+
+.DayLabelProgress {
+  color: var(--text-background);
+  border-color: var(--text-color);
+}
+
+.DayCheckbox {
+  width: 1.4em;
+  height: 1.4em;
+  margin-right: 1.4em;
+}
+
+.WeekDays {
+  padding-left: 0;
+}
+
+@media (max-width: 1250px) {
+  .PageMain {
+    padding: 1em;
+  }
+
+  .PageHeader {
+    font-size: 1.6rem;
+    margin-bottom: 1em;
+  }
+
+  .PageFooter {
+    padding: 2em;
+    font-size: 0.8em;
+  }
+
+  .WeekRange {
+    display: block;
+    font-size: 0.9em;
+  }
+}

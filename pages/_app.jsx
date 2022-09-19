@@ -1,5 +1,6 @@
 import { store, persistor } from '../store';
 import '../styles/globals.css';
+import 'normalize.css';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
