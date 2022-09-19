@@ -1,6 +1,6 @@
 import rootReducer from './reducers';
 import { configureStore } from '@reduxjs/toolkit';
-import { wateringEventsApi } from 'api/wateringEvents';
+import { wateringEventsApi } from 'apis/wateringEvents';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 

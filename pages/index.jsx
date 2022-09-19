@@ -1,4 +1,4 @@
-import { useCreateWateringEventMutation, useGetWateringEventsListQuery } from '../api/wateringEvents';
+import { useCreateWateringEventMutation, useGetWateringEventsListQuery } from '../apis/wateringEvents';
 import styles from '../styles/Home.module.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/uk';
