@@ -70,7 +70,7 @@ function WeekRow({ value, label, schedule }) {
   );
 }
 
-export default function Home() {
+export default function RoomPage() {
   const weekStart = dayjs().locale('uk').startOf('week');
   const weekEnd = dayjs().locale('uk').startOf('week').add(6, 'days');
 
@@ -99,12 +99,30 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Next.js app</title>
+        <title>Підливання вазонка </title>
       </Head>
 
-      <main className={styles.PageMain}>This is a Next.js project bootstrapped with create-next-app</main>
+      <main className={styles.PageMain}>
+        <h1 className={styles.PageHeader}>
+          Підливання вазонка{' '}
+          <span className={styles.WeekRange}>
+            ({weekStart.format('D MMMM')} - {weekEnd.format('D MMMM')})
+          </span>
+        </h1>
+        {isLoading ? (
+          'Завантажую...'
+        ) : isError ? (
+          'Помилка'
+        ) : (
+          <ul className={styles.WeekDays}>
+            {weekDaysOptions.map(({ value, label }) => (
+              <WeekRow key={value} value={value} label={label} schedule={schedule} />
+            ))}
+          </ul>
+        )}
+      </main>
 
-      <footer className={styles.PageFooter}>Version 0.1</footer>
+      <footer className={styles.PageFooter}>Версія 1.1</footer>
     </div>
   );
 }
