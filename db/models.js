@@ -2,7 +2,7 @@ import * as pg from 'pg';
 import { Sequelize, DataTypes } from 'sequelize';
 
 const DB_STRING = process.env.NEXT_PUBLIC_DB_STRING;
-const sequelize = new Sequelize(DB_STRING, {
+export const sequelize = new Sequelize(DB_STRING, {
   logging: false,
   dialectModule: pg,
 });

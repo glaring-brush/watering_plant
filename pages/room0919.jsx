@@ -37,7 +37,6 @@ function WeekRow({ value, label, schedule }) {
   };
 
   const onSubmit = (formData) => {
-    console.log(formData);
     createWateringEvent(formData)
       .unwrap()
       .then(createWateringEventSuccess)
@@ -61,8 +60,18 @@ function WeekRow({ value, label, schedule }) {
       }}
       key={value}
     >
-      <label htmlFor={`checkbox-${value}`} className={`${styles.DayLabel} ${isCreateWateringEventLoading ? 'animated' : ''} ${isCreateWateringEventLoading ? styles.DayLabelProgress : ''} `}>
-        <input type='checkbox' id={`checkbox-${value}`} {...register(IS_WATERED_FIELD)} className={styles.DayCheckbox} />
+      <label
+        htmlFor={`checkbox-${value}`}
+        className={`${styles.DayLabel} ${isCreateWateringEventLoading ? 'animated' : ''} ${
+          isCreateWateringEventLoading ? styles.DayLabelProgress : ''
+        } `}
+      >
+        <input
+          type="checkbox"
+          id={`checkbox-${value}`}
+          {...register(IS_WATERED_FIELD)}
+          className={styles.DayCheckbox}
+        />
         <input {...register(WATERING_DATE_FIELD)} hidden />
         {liLabel}
       </label>
@@ -85,7 +94,6 @@ export default function RoomPage() {
 
   const schedule = {};
   const { data, isLoading, isError } = useGetWateringEventsListQuery();
-  console.log(data);
 
   if (data?.events) {
     for (let event of data.events) {
@@ -93,8 +101,6 @@ export default function RoomPage() {
       schedule[dayjs(date).format('dddd')] = done;
     }
   }
-
-  console.log(schedule);
 
   return (
     <div>
