@@ -1,13 +1,15 @@
 :root {
   --text-color: #070707;
   --text-background: #f7f7f7;
+  --skeleton-foreground: #dbdbdb;
 }
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
 }
 
 body {
@@ -46,6 +48,7 @@ a {
   :root {
     --text-color: #f7f7f7;
     --text-background: #070707;
+    --skeleton-foreground: #6e6e6e;
   }
   html {
     color-scheme: dark;

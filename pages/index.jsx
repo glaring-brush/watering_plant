@@ -1,5 +1,6 @@
 import { useCreateWateringEventMutation, useGetWateringEventsListQuery } from '../apis/wateringEvents';
 import MainLayout from '../components/MainLayout/MainLayout';
+import WeekLoadingSkeleton from '../components/WeekLoadingSkeleton/WeekLoadingSkeleton';
 import CalendarIcon from '../components/icons/Calendar';
 import { selectToken } from '../selectors';
 import styles from '../styles/Home.module.css';
@@ -139,7 +140,7 @@ export default function RoomPage() {
               </Link>
             </h1>
             {isLoading ? (
-              'Завантажую...'
+              <WeekLoadingSkeleton />
             ) : isError ? (
               'Помилка'
             ) : (

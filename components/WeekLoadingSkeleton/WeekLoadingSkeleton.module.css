@@ -1,0 +1,33 @@
+.WeekDayLoadingSkeleton {
+  color: var(--text-color);
+  display: inline-block;
+  border: 3px solid;
+  border-radius: 0.3em;
+  padding: 0.4em 0.4em;
+  padding-right: 0.8em;
+  margin-bottom: 0.4em;
+  min-width: 4em;
+  min-height: 2.4em;
+  font-weight: bold;
+  background: linear-gradient(
+    90deg,
+    var(--text-background),
+    var(--skeleton-foreground),
+    var(--text-background),
+    var(--skeleton-foreground)
+  );
+  background-size: 400% 400%;
+  animation: skeleton-gradient 1s ease infinite;
+}
+
+@keyframes skeleton-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
