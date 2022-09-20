@@ -1,5 +1,6 @@
 import { useCreateWateringEventMutation, useGetWateringEventsListQuery } from '../apis/wateringEvents';
 import MainLayout from '../components/MainLayout/MainLayout';
+import CalendarIcon from '../components/icons/Calendar';
 import { selectToken } from '../selectors';
 import styles from '../styles/Home.module.css';
 import dayjs from 'dayjs';
@@ -7,6 +8,7 @@ import 'dayjs/locale/uk';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/plugin/relativeTime';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -117,7 +119,7 @@ export default function RoomPage() {
   const userToken = useSelector(selectToken);
 
   return (
-    <div>
+    <>
       <Head>
         <title>Підливання вазонка</title>
       </Head>
@@ -126,10 +128,15 @@ export default function RoomPage() {
         {userToken ? (
           <main>
             <h1 className={styles.PageHeader}>
-              Підливання вазонка
-              <span className={styles.WeekRange}>
-                ({weekStart.format('D MMMM')} - {weekEnd.format('D MMMM')})
-              </span>
+              <span>Підливання вазонка</span>
+              <Link href="/calendar" passHref>
+                <a className={styles.CalendarLink}>
+                  ({weekStart.format('D MMMM')} - {weekEnd.format('D MMMM')})
+                  <span className={styles.CalendarLinkIcon}>
+                    <CalendarIcon width="1.2em" height="1.2em" />
+                  </span>
+                </a>
+              </Link>
             </h1>
             {isLoading ? (
               'Завантажую...'
@@ -147,6 +154,6 @@ export default function RoomPage() {
           <main className={styles.PageMain}>This is a Next.js project bootstrapped with create-next-app</main>
         )}
       </MainLayout>
-    </div>
+    </>
   );
 }

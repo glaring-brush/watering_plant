@@ -1,3 +1,8 @@
+.PageHeader {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .DayLabel {
   display: flex;
   border: 3px solid;
@@ -23,14 +28,46 @@
   padding-left: 0;
 }
 
-@media (max-width: 1250px) {
-  .WeekRange {
-    display: block;
-    font-size: 0.9em;
-  }
-}
-
 .AuthorizePageMessage {
   padding: 4em;
   font-weight: bold;
+}
+
+.CalendarLink {
+  margin-left: 0.6em;
+  display: flex;
+  align-items: center;
+}
+
+.CalendarLinkIcon {
+  margin-left: 0.4em;
+  display: flex;
+  align-items: center;
+}
+
+.CalendarNavigationButtons {
+  display: flex;
+  align-items: center;
+}
+
+.CalendarNavigationButton {
+  display: flex;
+  border: 3px solid;
+  border-radius: 0.3em;
+  padding: 0.4em 0.4em;
+  padding-right: 0.8em;
+  width: fit-content;
+  font-weight: bold;
+}
+
+.CalendarNavigationButtons .CalendarNavigationButton {
+  margin-right: 2em;
+}
+
+@media (max-width: 1250px) {
+  .CalendarLink {
+    margin-left: 0;
+    margin-top: 0.4em;
+    font-size: 0.7em;
+  }
 }
