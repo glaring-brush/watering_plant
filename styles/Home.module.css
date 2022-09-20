@@ -33,6 +33,11 @@
   font-weight: bold;
 }
 
+.CalendarPageHeader {
+  display: flex;
+  align-items: center;
+}
+
 .CalendarLink {
   margin-left: 0.6em;
   display: flex;
@@ -58,6 +63,13 @@
   padding-right: 0.8em;
   width: fit-content;
   font-weight: bold;
+  font-size: 1rem;
+  justify-content: center;
+  align-content: center;
+}
+
+.CalendarNavigationButtonReset {
+  margin-left: 1em;
 }
 
 .CalendarNavigationButtons .CalendarNavigationButton {
@@ -70,4 +82,22 @@
     margin-top: 0.4em;
     font-size: 0.7em;
   }
+}
+
+.Calendar {
+  --cell-size: 4em;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin: 2em 0;
+
+  max-width: calc(7 * var(--cell-size));
+}
+
+.CalendarDay {
+  min-height: var(--cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
 }

@@ -101,7 +101,7 @@ function useWeek() {
   };
 }
 
-export default function RoomPage() {
+export default function IndexPage() {
   const { weekStart, weekEnd, weekDaysOptions } = useWeek();
 
   const { data, isLoading, isError } = useGetWateringEventsListQuery();
