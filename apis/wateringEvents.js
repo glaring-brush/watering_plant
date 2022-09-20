@@ -1,7 +1,19 @@
+import { selectToken } from '../selectors';
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
+
+export const defaultAuthHeaders = (headers, { getState }) => {
+  const token = selectToken(getState());
+
+  if (token) {
+    headers.set('Authorization', `${token}`);
+  }
+
+  return headers;
+};
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: '',
+  prepareHeaders: defaultAuthHeaders,
 });
 
 export const wateringEventsApi = createApi({

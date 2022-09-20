@@ -1,12 +1,15 @@
 import { useCreateWateringEventMutation, useGetWateringEventsListQuery } from '../apis/wateringEvents';
+import MainLayout from '../components/MainLayout/MainLayout';
+import { selectToken } from '../selectors';
 import styles from '../styles/Home.module.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/uk';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/plugin/relativeTime';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 dayjs.extend(localizedFormat);
 
@@ -28,16 +31,11 @@ function WeekRow({ value, label, schedule }) {
 
   const [createWateringEvent, { isLoading: isCreateWateringEventLoading }] = useCreateWateringEventMutation();
 
-  const createWateringEventSuccess = () => {
-    console.log('success');
-  };
+  const createWateringEventSuccess = () => {};
 
-  const createWateringEventFail = () => {
-    console.log('error');
-  };
+  const createWateringEventFail = (error) => {};
 
   const onSubmit = (formData) => {
-    console.log(formData);
     createWateringEvent(formData)
       .unwrap()
       .then(createWateringEventSuccess)
@@ -61,8 +59,18 @@ function WeekRow({ value, label, schedule }) {
       }}
       key={value}
     >
-      <label htmlFor={`checkbox-${value}`} className={`${styles.DayLabel} ${isCreateWateringEventLoading ? 'animated' : ''} ${isCreateWateringEventLoading ? styles.DayLabelProgress : ''} `}>
-        <input type='checkbox' id={`checkbox-${value}`} {...register(IS_WATERED_FIELD)} className={styles.DayCheckbox} />
+      <label
+        htmlFor={`checkbox-${value}`}
+        className={`${styles.DayLabel} ${isCreateWateringEventLoading ? 'animated' : ''} ${
+          isCreateWateringEventLoading ? styles.DayLabelProgress : ''
+        } `}
+      >
+        <input
+          type="checkbox"
+          id={`checkbox-${value}`}
+          {...register(IS_WATERED_FIELD)}
+          className={styles.DayCheckbox}
+        />
         <input {...register(WATERING_DATE_FIELD)} hidden />
         {liLabel}
       </label>
@@ -70,7 +78,7 @@ function WeekRow({ value, label, schedule }) {
   );
 }
 
-export default function Home() {
+function useWeek() {
   const weekStart = dayjs().locale('uk').startOf('week');
   const weekEnd = dayjs().locale('uk').startOf('week').add(6, 'days');
 
@@ -83,28 +91,62 @@ export default function Home() {
     });
   }
 
-  const schedule = {};
+  return {
+    weekStart,
+    weekEnd,
+    weekDaysOptions,
+  };
+}
+
+export default function RoomPage() {
+  const { weekStart, weekEnd, weekDaysOptions } = useWeek();
+
   const { data, isLoading, isError } = useGetWateringEventsListQuery();
-  console.log(data);
 
-  if (data?.events) {
-    for (let event of data.events) {
-      const { date, done } = event;
-      schedule[dayjs(date).format('dddd')] = done;
+  const computedSchedule = useMemo(() => {
+    const schedule = {};
+    if (data?.events) {
+      for (let event of data.events) {
+        const { date, done } = event;
+        schedule[dayjs(date).format('dddd')] = done;
+      }
     }
-  }
+    return schedule;
+  }, [data]);
 
-  console.log(schedule);
+  const userToken = useSelector(selectToken);
 
   return (
     <div>
       <Head>
-        <title>Next.js app</title>
+        <title>Підливання вазонка</title>
       </Head>
 
-      <main className={styles.PageMain}>This is a Next.js project bootstrapped with create-next-app</main>
-
-      <footer className={styles.PageFooter}>Version 0.1</footer>
+      <MainLayout>
+        {userToken ? (
+          <main>
+            <h1 className={styles.PageHeader}>
+              Підливання вазонка
+              <span className={styles.WeekRange}>
+                ({weekStart.format('D MMMM')} - {weekEnd.format('D MMMM')})
+              </span>
+            </h1>
+            {isLoading ? (
+              'Завантажую...'
+            ) : isError ? (
+              'Помилка'
+            ) : (
+              <ul className={styles.WeekDays}>
+                {weekDaysOptions.map(({ value, label }) => (
+                  <WeekRow key={value} value={value} label={label} schedule={computedSchedule} />
+                ))}
+              </ul>
+            )}
+          </main>
+        ) : (
+          <main className={styles.PageMain}>This is a Next.js project bootstrapped with create-next-app</main>
+        )}
+      </MainLayout>
     </div>
   );
 }

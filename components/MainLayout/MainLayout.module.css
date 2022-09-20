@@ -1,0 +1,19 @@
+.MainLayout {
+  padding: 2em 4em;
+}
+
+.MainLayoutFooter {
+  margin-top: 4em;
+  font-size: 0.8em;
+}
+
+@media (max-width: 1250px) {
+  .MainLayout {
+    padding: 1em;
+  }
+
+  .MainLayoutFooter {
+    padding: 2em;
+    font-size: 0.8em;
+  }
+}

@@ -1,4 +1,4 @@
-import { WateringEvent } from '../../db/models';
+import { User, WateringEvent } from '../../db/models';
 import { NextApiResponse, NextApiRequest } from 'next';
 import { performance } from 'perf_hooks';
 
@@ -8,9 +8,19 @@ export default async function handler(request: NextApiRequest, response: NextApi
   const t0 = performance.now();
 
   try {
-    const token = request.headers['TOKEN'];
+    const token = request.headers['authorization'];
     if (!token) {
-      // return response.status(403).json({ token: 'Please provide token' });
+      return response.status(200).json({ events: [] });
+    }
+
+    const user = await User.findOne({
+      where: {
+        token,
+      },
+    });
+
+    if (!user) {
+      return response.status(200).json({ events: [] });
     }
 
     if (request.method === 'POST') {
