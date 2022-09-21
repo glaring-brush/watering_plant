@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/uk';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 
@@ -64,19 +65,19 @@ export default function CalendarPage({ date }) {
 
   const dateRange = useMemo(() => generateDateRange(firstCalendarDay, lastCalendarDay), [date]);
 
-  console.log(dateRange);
+  const isSameYear = currentDate.isSame(localFilterDate, 'year');
 
   return (
     <>
       <Head>
-        <title>Підливання вазонка</title>
+        <title>Підливання вазону</title>
       </Head>
 
       <MainLayout>
         <main className={styles.PageMain}>
-          <h1 className={styles.PageHeader}>Календар підливання вазонка</h1>
+          <h1 className={styles.PageHeader}>Календар підливання вазону</h1>
           <h2 className={styles.CalendarPageHeader}>
-            <span>Вибраний місяць: {localFilterDate.format('MMMM YYYY')}</span>
+            <span>Вибраний місяць: {localFilterDate.format(isSameYear ? 'MMMM' : 'MMMM YYYY')}</span>
             <button
               type="button"
               onClick={() => router.replace({ query: {} })}
@@ -102,13 +103,18 @@ export default function CalendarPage({ date }) {
             </button>
           </div>
           <div className={styles.Calendar}>
+            {dateRange.slice(0, 7).map((date) => (
+              <div className={styles.CalendarWeekDay} key={date.format('dd')}>
+                {date.format('dd')}
+              </div>
+            ))}
             {dateRange.map((date, index) => (
               <div
                 className={styles.CalendarDay}
                 key={date.format(DEFAULT_DATE_FORMAT)}
                 style={{
-                  borderTop: index < 7 ? 'none' : '1px solid grey',
-                  borderLeft: index % 7 === 0 ? 'none' : '1px solid grey',
+                  borderTopStyle: index < 7 ? 'none' : 'solid',
+                  borderLeftStyle: index % 7 === 0 ? 'none' : 'solid',
                   color: filterDate.isSame(date, 'month') ? 'inherit' : '#d0d0d0',
                 }}
               >
@@ -116,6 +122,9 @@ export default function CalendarPage({ date }) {
               </div>
             ))}
           </div>
+          <Link href="/">
+            <a>Повернутись на головну сторінку</a>
+          </Link>
         </main>
       </MainLayout>
     </>

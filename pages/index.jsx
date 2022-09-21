@@ -101,9 +101,7 @@ function useWeek() {
   };
 }
 
-export default function IndexPage() {
-  const { weekStart, weekEnd, weekDaysOptions } = useWeek();
-
+function useSchedule() {
   const { data, isLoading, isError } = useGetWateringEventsListQuery();
 
   const computedSchedule = useMemo(() => {
@@ -117,22 +115,32 @@ export default function IndexPage() {
     return schedule;
   }, [data]);
 
+  return { schedule: computedSchedule, isLoading, isError };
+}
+
+export default function IndexPage() {
+  const { weekStart, weekEnd, weekDaysOptions } = useWeek();
+
+  const { schedule, isLoading, isError } = useSchedule();
+
   const userToken = useSelector(selectToken);
+
+  const isRangeInSameMonth = weekStart.isSame(weekEnd, 'month');
 
   return (
     <>
       <Head>
-        <title>Підливання вазонка</title>
+        <title>Підливання вазону</title>
       </Head>
 
       <MainLayout>
         {userToken ? (
           <main>
             <h1 className={styles.PageHeader}>
-              <span>Підливання вазонка</span>
+              <span>Підливання вазону</span>
               <Link href="/calendar" passHref>
                 <a className={styles.CalendarLink}>
-                  ({weekStart.format('D MMMM')} - {weekEnd.format('D MMMM')})
+                  ({weekStart.format(isRangeInSameMonth ? 'D' : 'D MMMM')} - {weekEnd.format('D MMMM')})
                   <span className={styles.CalendarLinkIcon}>
                     <CalendarIcon width="1.2em" height="1.2em" />
                   </span>
@@ -146,7 +154,7 @@ export default function IndexPage() {
             ) : (
               <ul className={styles.WeekDays}>
                 {weekDaysOptions.map(({ value, label }) => (
-                  <WeekRow key={value} value={value} label={label} schedule={computedSchedule} />
+                  <WeekRow key={value} value={value} label={label} schedule={schedule} />
                 ))}
               </ul>
             )}

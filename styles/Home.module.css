@@ -86,6 +86,7 @@
 
 .Calendar {
   --cell-size: 4em;
+  --calendar-grid-color: gray;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   margin: 2em 0;
@@ -93,11 +94,19 @@
   max-width: calc(7 * var(--cell-size));
 }
 
+.CalendarWeekDay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
 .CalendarDay {
+  box-sizing: border-box;
   min-height: var(--cell-size);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid gray;
-  border-top: 1px solid gray;
+  border-left: 1px solid var(--calendar-grid-color);
+  border-top: 1px solid var(--calendar-grid-color);
 }
