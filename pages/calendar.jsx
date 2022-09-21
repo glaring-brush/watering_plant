@@ -1,4 +1,7 @@
 import MainLayout from '../components/MainLayout/MainLayout';
+import CaretLeftFill from '../components/icons/CaretLeftFill';
+import CaretRightFill from '../components/icons/CaretRightFill';
+import ListChecked from '../components/icons/ListChecked';
 import styles from '../styles/Home.module.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/uk';
@@ -47,6 +50,25 @@ function generateDateRange(startDate, endDate) {
   return dateRange;
 }
 
+function IconSpacer() {
+  return <div className={styles.IconSpacer}></div>;
+}
+
+function CalendarNavigationButton({ onClick = () => {}, isLoading, children, icon, direction = 'ltr' }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{ direction }}
+      className={`${styles.CalendarNavigationButton} ${isLoading ? 'animated' : ''}`}
+    >
+      {icon}
+      <IconSpacer />
+      {children}
+    </button>
+  );
+}
+
 export default function CalendarPage({ date }) {
   const router = useRouter();
 
@@ -87,20 +109,22 @@ export default function CalendarPage({ date }) {
             </button>
           </h2>
           <div className={styles.CalendarNavigationButtons}>
-            <button
-              type="button"
+            <CalendarNavigationButton
               onClick={() => router.replace({ query: { date: formatQueryDate(firstDayOfPreviousMonth) } })}
-              className={`${styles.CalendarNavigationButton} ${isMonthLoading ? 'animated' : ''}`}
+              isLoading={isMonthLoading}
+              icon={<CaretLeftFill width="1em" height="1em" />}
+              direction="ltr"
             >
               Попередній
-            </button>
-            <button
-              type="button"
+            </CalendarNavigationButton>
+            <CalendarNavigationButton
               onClick={() => router.replace({ query: { date: formatQueryDate(firstDayOfNextMonth) } })}
-              className={`${styles.CalendarNavigationButton} ${isMonthLoading ? 'animated' : ''}`}
+              isLoading={isMonthLoading}
+              icon={<CaretRightFill width="1em" height="1em" />}
+              direction="rtl"
             >
               Наступний
-            </button>
+            </CalendarNavigationButton>
           </div>
           <div className={styles.Calendar}>
             {dateRange.slice(0, 7).map((date) => (
@@ -123,7 +147,11 @@ export default function CalendarPage({ date }) {
             ))}
           </div>
           <Link href="/">
-            <a>Повернутись на головну сторінку</a>
+            <a className={styles.CalendarBackToMainPageLink}>
+              <ListChecked width="1em" height="1em" />
+              <IconSpacer />
+              Повернутись на головну сторінку
+            </a>
           </Link>
         </main>
       </MainLayout>

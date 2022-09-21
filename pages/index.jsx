@@ -142,7 +142,7 @@ export default function IndexPage() {
                 <a className={styles.CalendarLink}>
                   ({weekStart.format(isRangeInSameMonth ? 'D' : 'D MMMM')} - {weekEnd.format('D MMMM')})
                   <span className={styles.CalendarLinkIcon}>
-                    <CalendarIcon width="1.2em" height="1.2em" />
+                    <CalendarIcon width="1em" height="1em" />
                   </span>
                 </a>
               </Link>
