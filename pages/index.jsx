@@ -11,6 +11,7 @@ import 'dayjs/locale/uk';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/plugin/relativeTime';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -149,7 +150,17 @@ export default function IndexPage() {
             )}
           </main>
         ) : (
-          <main className={styles.PageMain}>This is a Next.js project bootstrapped with create-next-app</main>
+          <main className={styles.PageMain}>
+            <h1>Доступ заборонено</h1>
+            <section>
+              <Image
+                src="/Persuadable_Bouncer.png"
+                alt="Access denied - image of Persuadable Bouncer meme with closed dors"
+                width={500}
+                height={500}
+              />
+            </section>
+          </main>
         )}
       </MainLayout>
     </>
