@@ -2,6 +2,8 @@ import { useCreateWateringEventMutation, useGetWateringEventsListQuery } from '.
 import MainLayout from '../components/MainLayout/MainLayout';
 import WeekLoadingSkeleton from '../components/WeekLoadingSkeleton/WeekLoadingSkeleton';
 import CalendarIcon from '../components/icons/Calendar';
+import { DEFAULT_DATE_FORMAT } from '../helpers/dates';
+import { useSchedule } from '../helpers/hooks';
 import { selectToken } from '../selectors';
 import styles from '../styles/Home.module.css';
 import dayjs from 'dayjs';
@@ -20,7 +22,8 @@ const IS_WATERED_FIELD = 'isWatered';
 const WATERING_DATE_FIELD = 'wateringDateField';
 
 function WeekRow({ value, label, schedule }) {
-  const dayKey = dayjs(value).format('dddd');
+  const dayKey = dayjs(value).format(DEFAULT_DATE_FORMAT);
+  const currentDay = dayjs().format(DEFAULT_DATE_FORMAT);
 
   const methods = useForm({
     mode: 'onChange',
@@ -67,6 +70,9 @@ function WeekRow({ value, label, schedule }) {
         className={`${styles.DayLabel} ${isCreateWateringEventLoading ? 'animated' : ''} ${
           isCreateWateringEventLoading ? styles.DayLabelProgress : ''
         } `}
+        style={{
+          backgroundColor: value === currentDay ? 'var(--current-date-background)' : 'inherit',
+        }}
       >
         <input
           type="checkbox"
@@ -89,7 +95,7 @@ function useWeek() {
   for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
     const day = weekStart.add(dayIndex, 'days');
     weekDaysOptions.push({
-      value: day.toISOString(),
+      value: day.format(DEFAULT_DATE_FORMAT),
       label: day.format('dddd'),
     });
   }
@@ -99,23 +105,6 @@ function useWeek() {
     weekEnd,
     weekDaysOptions,
   };
-}
-
-function useSchedule() {
-  const { data, isLoading, isError } = useGetWateringEventsListQuery();
-
-  const computedSchedule = useMemo(() => {
-    const schedule = {};
-    if (data?.events) {
-      for (let event of data.events) {
-        const { date, done } = event;
-        schedule[dayjs(date).format('dddd')] = done;
-      }
-    }
-    return schedule;
-  }, [data]);
-
-  return { schedule: computedSchedule, isLoading, isError };
 }
 
 export default function IndexPage() {

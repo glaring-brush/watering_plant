@@ -18,11 +18,13 @@ export const baseQuery = fetchBaseQuery({
 
 export const wateringEventsApi = createApi({
   reducerPath: 'wateringEventsApi',
+  tagTypes: ['wateringEvents'],
   baseQuery: baseQuery,
   refetchOnFocus: true,
   endpoints: (builder) => ({
     getWateringEventsList: builder.query({
       query: () => '/api/events',
+      providesTags: ['wateringEvents'],
     }),
     createWateringEvent: builder.mutation({
       query: (body) => {
@@ -33,6 +35,7 @@ export const wateringEventsApi = createApi({
           body: requestBody,
         };
       },
+      invalidatesTags: ['wateringEvents'],
     }),
   }),
 });

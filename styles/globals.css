@@ -2,6 +2,8 @@
   --text-color: #070707;
   --text-background: #f7f7f7;
   --skeleton-foreground: #dbdbdb;
+  --color-water: #478fea;
+  --current-date-background: #f9ecf1;
 }
 
 html,
@@ -49,6 +51,7 @@ a {
     --text-color: #f7f7f7;
     --text-background: #070707;
     --skeleton-foreground: #6e6e6e;
+    --current-date-background: #3d2935;
   }
   html {
     color-scheme: dark;
