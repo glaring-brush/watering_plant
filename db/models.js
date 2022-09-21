@@ -18,3 +18,5 @@ export const WateringEvent = sequelize.define('WateringEvent', {
 });
 
 WateringEvent.User = WateringEvent.belongsTo(User);
+
+sequelize.sync({ alter: true });
