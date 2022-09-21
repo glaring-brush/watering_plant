@@ -72,7 +72,7 @@ function WeekRow({ value, label, schedule }) {
           isCreateWateringEventLoading ? styles.DayLabelProgress : ''
         } `}
         style={{
-          backgroundColor: value === currentDay ? 'var(--current-date-background)' : 'inherit',
+          backgroundColor: dayKey === currentDay ? 'var(--current-date-background)' : 'inherit',
         }}
       >
         <input
@@ -96,7 +96,7 @@ function useWeek() {
   for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
     const day = weekStart.add(dayIndex, 'days');
     weekDaysOptions.push({
-      value: day.format(DEFAULT_DATE_FORMAT),
+      value: day.toISOString(),
       label: day.format('dddd'),
     });
   }
