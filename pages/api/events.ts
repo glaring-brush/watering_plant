@@ -33,11 +33,16 @@ export default async function handler(request: NextApiRequest, response: NextApi
         },
       });
 
+      if (created) {
+        console.log('NEW EVENT CREATED ON >>>', wateringDateField);
+      }
+
       console.log('FIND OR CREATE EVENTS >>>', performance.now() - t0);
       const t1 = performance.now();
 
       event.done = isWatered;
       await event.save();
+
       console.log('SAVE EVENT >>>', performance.now() - t1);
 
       return response.status(200).json({ event: event.id });
