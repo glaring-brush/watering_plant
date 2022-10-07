@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
+    "@supabase/supabase-js": "^2.0.0-rc.10",
     "dayjs": "^1.11.5",
     "next": "12.3.0",
     "normalize.css": "^8.0.1",
