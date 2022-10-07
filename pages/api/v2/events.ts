@@ -31,15 +31,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
     if (request.method === 'POST') {
       const { isWatered, wateringDateField } = request.body;
 
-      console.log(request.body);
-
-      let {
-        data: currentEvents,
-        error: currentEventsError,
-        status: currentEventsStatus,
-      } = await supabase.from('WateringEvents').select(`*`);
-
-      console.log(currentEvents || []);
+      console.log('REQUEST', request.body);
 
       let created = false;
       let {
@@ -48,13 +40,22 @@ export default async function handler(request: NextApiRequest, response: NextApi
         status: eventStatus,
       } = await supabase.from('WateringEvents').select(`done, id`).eq('date', wateringDateField).single();
 
+      console.log('EVENT FOUND >>>', event);
+
+      const currentTime = new Date().toISOString();
+
       if (!event) {
+        console.log('CREATING EVENT >>>');
         let {
           data: eventCreated,
           error: eventCreatedError,
           status: eventCreatedStatus,
-        } = await supabase.from('WateringEvents').insert([{ date: wateringDateField, done: false }]);
+        } = await supabase
+          .from('WateringEvents')
+          .insert([{ date: wateringDateField, done: false, createdAt: currentTime, updatedAt: currentTime }])
+          .select();
 
+        console.log('CREATED EVENT >>>', eventCreated);
         event = eventCreated[0];
         created = true;
       }
@@ -66,10 +67,12 @@ export default async function handler(request: NextApiRequest, response: NextApi
       console.log('FIND OR CREATE EVENTS >>>', performance.now() - t0);
       const t1 = performance.now();
 
-      // const { data: updateEventData, error: updateEventError } = await supabase
-      //   .from('WateringEvents')
-      //   .update({ done: true })
-      //   .match({ id: event.id });
+      const { data: updateEventData, error: updateEventError } = await supabase
+        .from('WateringEvents')
+        .update({ done: isWatered, updatedAt: currentTime })
+        .match({ id: event.id });
+
+      console.log('UPDATE EVENT DATA >>> ');
 
       console.log('SAVE EVENT >>>', performance.now() - t1);
 
