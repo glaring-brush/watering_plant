@@ -31,6 +31,17 @@ export default async function handler(request: NextApiRequest, response: NextApi
     if (request.method === 'POST') {
       const { isWatered, wateringDateField } = request.body;
 
+      console.log(request.body);
+
+      let {
+        data: currentEvents,
+        error: currentEventsError,
+        status: currentEventsStatus,
+      } = await supabase.from('WateringEvents').select(`*`);
+
+      console.log(currentEvents || []);
+      console.table(currentEvents || []);
+
       let created = false;
       let {
         data: event,
@@ -56,10 +67,10 @@ export default async function handler(request: NextApiRequest, response: NextApi
       console.log('FIND OR CREATE EVENTS >>>', performance.now() - t0);
       const t1 = performance.now();
 
-      const { data: updateEventData, error: updateEventError } = await supabase
-        .from('WateringEvents')
-        .update({ done: true })
-        .match({ id: event.id });
+      // const { data: updateEventData, error: updateEventError } = await supabase
+      //   .from('WateringEvents')
+      //   .update({ done: true })
+      //   .match({ id: event.id });
 
       console.log('SAVE EVENT >>>', performance.now() - t1);
 

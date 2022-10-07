@@ -23,14 +23,14 @@ export const wateringEventsApi = createApi({
   refetchOnFocus: true,
   endpoints: (builder) => ({
     getWateringEventsList: builder.query({
-      query: () => '/api/events',
+      query: () => '/api/v1/events',
       providesTags: ['wateringEvents'],
     }),
     createWateringEvent: builder.mutation({
       query: (body) => {
         const { ...requestBody } = body;
         return {
-          url: `/api/events`,
+          url: `/api/v1/events`,
           method: 'POST',
           body: requestBody,
         };
