@@ -40,7 +40,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
       } = await supabase.from('WateringEvents').select(`*`);
 
       console.log(currentEvents || []);
-      console.table(currentEvents || []);
 
       let created = false;
       let {
