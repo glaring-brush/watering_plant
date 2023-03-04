@@ -11,6 +11,7 @@
   padding-right: 0.8em;
   width: fit-content;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .DayLabelProgress {

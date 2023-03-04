@@ -15,6 +15,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
   try {
     const token = request.headers['authorization'];
     if (!token) {
+      console.log(`no authorization header for user IP: ${request.socket.remoteAddress}`);
       return response.status(200).json({ events: [] });
     }
 
@@ -25,6 +26,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
     } = await supabase.from('Users').select(`username, id`).eq('token', token).single();
 
     if (!user) {
+      console.log(`no user matching token ${token}, request IP: ${request.socket.remoteAddress}`);
       return response.status(200).json({ events: [] });
     }
 
@@ -52,7 +54,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
           status: eventCreatedStatus,
         } = await supabase
           .from('WateringEvents')
-          .insert([{ date: wateringDateField, done: false, createdAt: currentTime, updatedAt: currentTime }])
+          .insert([
+            { date: wateringDateField, done: false, createdAt: currentTime, updatedAt: currentTime, UserId: user.id },
+          ])
           .select();
 
         console.log('CREATED EVENT >>>', eventCreated);
@@ -69,7 +73,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
       const { data: updateEventData, error: updateEventError } = await supabase
         .from('WateringEvents')
-        .update({ done: isWatered, updatedAt: currentTime })
+        .update({ done: isWatered, updatedAt: currentTime, UserId: user.id })
         .match({ id: event.id });
 
       console.log('UPDATE EVENT DATA >>> ');
